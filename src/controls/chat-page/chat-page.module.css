@@ -1,9 +1,9 @@
 .page {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
-  font-family: var(--theme_font_family, sans-serif);
-  color: var(--theme_text, #333333);
+  height: 100%;
+  font-family: var(--theme_font-family, sans-serif);
+  color: var(--theme_text-primary, #333333);
   background: var(--theme_background, #ffffff);
 }
 
@@ -16,11 +16,13 @@
   margin: 0;
   font-size: 24px;
   font-weight: 600;
-  color: var(--theme_text_on_primary, #ffffff);
+  color: var(--theme_text_on_primary, #000000);
 }
 
 .content {
   flex: 1;
+  min-height: 0;
+  overflow: auto;
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -37,29 +39,30 @@
 .card {
   margin-top: 12px;
   padding: 20px;
-  border: 1px solid var(--theme_border, #000000);
+  border: 1px solid var(--theme_border-color-dark, #dddddd);
   border-radius: 8px;
-  background: var(--theme_secondary, #000000);
+  background: var(--theme_primary, #f5f5f5);
 }
 
 .cardTitle {
   margin: 0 0 8px 0;
   font-size: 18px;
   font-weight: 600;
+  color: var(--theme_text-primary, #333333);
 }
 
 .cardText {
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
-  color: #000000;
+  color: var(--theme_text-primary, #333333);
 }
 
 .footer {
   padding: 16px 32px;
-  border-top: 1px solid var(--theme_border, #dddddd);
+  border-top: 1px solid var(--theme_border-color-dark, #dddddd);
   font-size: 13px;
-  color: var(--theme_secondary_text, #777777);
+  color: var(--theme_text-secondary, #777777);
 }
 
 .button {
@@ -68,8 +71,8 @@
   border: none;
   border-radius: 6px;
   font-size: 14px;
-  color: var(--theme_text_on_primary, #ffffff);
-  background: var(--theme_primary, #2b579a);
+  color: var(--theme_text-light, #ffffff);
+  background: var(--theme_primary-accent, #2b579a);
   cursor: pointer;
 }
 
