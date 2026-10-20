@@ -1,25 +1,29 @@
 import { useState } from 'react';
 
-import {
-  IEntity,
-  IRemoteComponentCardApi,
-  IRemoteComponentContext
-} from '@directum/sungero-remote-component-types';
+import { IRemoteComponentApi, IRemoteComponentContext } from '@directum/sungero-remote-component-types';
+
+import { getEntityInfo, isCoverApi, IEntityInfo } from '../../utils/entity';
 
 import styles from './chat-page.module.css';
 
 interface IChatPageProps {
   initialContext: IRemoteComponentContext;
-  api: IRemoteComponentCardApi;
+  api: IRemoteComponentApi;
 }
 
 /** Простая HTML страница с произвольным текстом. */
 export default function ChatPage({ initialContext: _initialContext, api }: IChatPageProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [entity, setEntity] = useState<IEntity | null>(null);
+  const [entity, setEntity] = useState<IEntityInfo | undefined>(undefined);
+  const [coverActions, setCoverActions] = useState(0);
 
   const handleOpen = () => {
-    setEntity(api.getEntity<IEntity>());
+    setEntity(getEntityInfo(api));
+
+    if (isCoverApi(api)) {
+      setCoverActions(api.getActionsMetadata().length);
+    }
+
     setDialogOpen(true);
   };
 
@@ -30,7 +34,7 @@ export default function ChatPage({ initialContext: _initialContext, api }: IChat
       </header>
       <main className={styles.content}>
         <p className={styles.text}>
-          ЩЩЩЩЩЩ!!!Это простая HTML-страница, отображаемая сторонним компонентом Directum RX.
+          Это простая HTML-страница, отображаемая сторонним компонентом Directum RX.
         </p>
         <p className={styles.text}>
           Вы можете разместить здесь любой текст, картинки, таблицы или интерактивные элементы.
@@ -42,10 +46,15 @@ export default function ChatPage({ initialContext: _initialContext, api }: IChat
           <div className={styles.overlay} onClick={() => setDialogOpen(false)}>
             <div className={styles.dialog} onClick={(event) => event.stopPropagation()}>
               <p className={styles.dialogText}>Hello world</p>
-              {entity && (
+              {entity ? (
                 <div className={styles.entityInfo}>
-                  <p className={styles.dialogText}>Id карточки: {entity.Id}</p>
-                  <p className={styles.dialogText}>GUID типа: {entity.Info.typeId}</p>
+                  <p className={styles.dialogText}>Id карточки: {entity.id}</p>
+                  <p className={styles.dialogText}>GUID типа: {entity.typeId}</p>
+                </div>
+              ) : (
+                <div className={styles.entityInfo}>
+                  <p className={styles.dialogText}>Cover — сущности нет</p>
+                  <p className={styles.dialogText}>Доступно действий обложки: {coverActions}</p>
                 </div>
               )}
               <button type="button" className={styles.button} onClick={() => setDialogOpen(false)}>
