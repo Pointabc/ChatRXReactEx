@@ -40,12 +40,12 @@ export default function ChatPage({ initialContext: _initialContext, api }: IChat
           Вы можете разместить здесь любой текст, картинки, таблицы или интерактивные элементы.
         </p>
         <button type="button" className={styles.button} onClick={handleOpen}>
-          Открыть диалог
+          Св-ва карточки
         </button>
         {dialogOpen && (
           <div className={styles.overlay} onClick={() => setDialogOpen(false)}>
             <div className={styles.dialog} onClick={(event) => event.stopPropagation()}>
-              <p className={styles.dialogText}>Hello world</p>
+              <p className={styles.dialogText}>Свойства документа</p>
               {entity ? (
                 <div className={styles.entityInfo}>
                   <p className={styles.dialogText}>Id карточки: {entity.id}</p>
