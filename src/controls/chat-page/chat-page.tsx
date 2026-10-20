@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-import { IRemoteComponentCardApi, IRemoteComponentContext } from '@directum/sungero-remote-component-types';
+import {
+  IEntity,
+  IRemoteComponentCardApi,
+  IRemoteComponentContext
+} from '@directum/sungero-remote-component-types';
 
 import styles from './chat-page.module.css';
 
@@ -10,8 +14,14 @@ interface IChatPageProps {
 }
 
 /** Простая HTML страница с произвольным текстом. */
-export default function ChatPage({ initialContext: _initialContext, api: _api }: IChatPageProps) {
+export default function ChatPage({ initialContext: _initialContext, api }: IChatPageProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [entity, setEntity] = useState<IEntity | null>(null);
+
+  const handleOpen = () => {
+    setEntity(api.getEntity<IEntity>());
+    setDialogOpen(true);
+  };
 
   return (
     <div className={styles.page}>
@@ -25,13 +35,19 @@ export default function ChatPage({ initialContext: _initialContext, api: _api }:
         <p className={styles.text}>
           Вы можете разместить здесь любой текст, картинки, таблицы или интерактивные элементы.
         </p>
-        <button type="button" className={styles.button} onClick={() => setDialogOpen(true)}>
+        <button type="button" className={styles.button} onClick={handleOpen}>
           Открыть диалог
         </button>
         {dialogOpen && (
           <div className={styles.overlay} onClick={() => setDialogOpen(false)}>
             <div className={styles.dialog} onClick={(event) => event.stopPropagation()}>
               <p className={styles.dialogText}>Hello world</p>
+              {entity && (
+                <div className={styles.entityInfo}>
+                  <p className={styles.dialogText}>Id карточки: {entity.Id}</p>
+                  <p className={styles.dialogText}>GUID типа: {entity.Info.typeId}</p>
+                </div>
+              )}
               <button type="button" className={styles.button} onClick={() => setDialogOpen(false)}>
                 Закрыть
               </button>

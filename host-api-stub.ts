@@ -23,7 +23,11 @@ class HostStubApi implements IRemoteComponentCardApi, IRemoteComponentCoverApi {
   public getEntity<T extends IEntity>(): T {
     return {
       Id: 1,
-      DisplayValue: 'Test Entity'
+      DisplayValue: 'Test Entity',
+      Info: {
+        typeId: '00000000-0000-0000-0000-000000000001',
+        properties: []
+      }
     } as unknown as T;
   }
 
